@@ -10,40 +10,38 @@ input{
     background-color: rgb(250, 249, 193);
 }
 
-/* Determina el color de fondo para toda la página */
+
 body{
     background-color: #f5eef0;
 }
 
-/* Aplica formato al título principal */
 h1{
     color: #dc3545;
     text-align: center;
 }
 
-/* Define la apariencia de cada tarjeta de Pokémon */
+
 .card{
     border: 2px solid #dc3545;
     border-radius: 15px;
     transition: transform 0.3s;
 }
 
-/* Aplica un efecto cuando el usuario coloca el cursor sobre la tarjeta */
 .card:hover{
     transform: scale(1.05);
 }
 
-/* Determina el color de fondo del cuerpo de la tarjeta */
+
 .card-body{
     background-color: #fff3cd;
 }
 
-/* Define el estilo del selector de generaciones */
+
 .form-select{
     border: 2px solid #dc3545;
 }
 
-/* Aplica formato a la ventana emergente (modal) */
+
 .modal-content{
     border: 3px solid #dc3545;
     border-radius: 20px;
