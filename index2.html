@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,50 +6,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokédex</title>
 
-    <link rel="stylesheet" href="styles/formatos.css" media="screen">
+    <link rel="stylesheet" href="styles/formatos.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-    <h1>Pokédex</h1>
+    <div class="container mt-4">
 
-    <form name="formita">
+        <h1 class="text-center mb-4">Pokédex</h1>
 
-        <fieldset>
-            <div>
-                <label>Generación:</label>
+        <div class="mb-4">
+            <label class="form-label">Generación:</label>
 
-                <select id="cmbGeneracion">
-                    <option value="0,151">Primera Generación</option>
-                    <option value="151,100">Segunda Generación</option>
-                    <option value="251,135">Tercera Generación</option>
-                    <option value="386,107">Cuarta Generación</option>
-                    <option value="493,156">Quinta Generación</option>
-                </select>
+            <select id="generation" class="form-select">
+                <option value="0,151">Primera Generación</option>
+                <option value="151,100">Segunda Generación</option>
+                <option value="251,135">Tercera Generación</option>
+                <option value="386,107">Cuarta Generación</option>
+                <option value="493,156">Quinta Generación</option>
+            </select>
+        </div>
+
+        <!-- Lista de Pokémon -->
+        <div id="pokemonList" class="row g-3"></div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="pokemonModal" tabindex="-1">
+
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title" id="pokemonTitle"></h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body text-center">
+
+                    <img
+                        id="pokemonImage"
+                        class="img-fluid mb-3"
+                        alt="Pokemon">
+
+                    <p id="pokemonInfo"></p>
+
+                    <p>
+                        <strong>Tipos:</strong><br>
+                        <span id="pokemonTypes"></span>
+                    </p>
+
+                    <p>
+                        <strong>Habilidades:</strong><br>
+                        <span id="pokemonAbilities"></span>
+                    </p>
+
+                    <p>
+                        <strong>Movimientos:</strong><br>
+                        <span id="pokemonMoves"></span>
+                    </p>
+
+                </div>
+
             </div>
-        </fieldset>
-
-    </form>
-
-    <!-- Aquí se mostrarán los Pokémon -->
-    <div id="Datos"></div>
-
-    <!-- Ventana flotante para detalles -->
-    <div id="modalPokemon" class="modal">
-
-        <div class="modal-contenido">
-
-            <span id="cerrarModal">&times;</span>
-
-            <div id="detallePokemon"></div>
 
         </div>
 
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="codes/codigo_05.js"></script>
 
 </body>
 </html>
-
-
