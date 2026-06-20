@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+
+    <link rel="stylesheet" href="styles/formatos.css" media="screen">
+</head>
+
+<body>
+
+    <h1>Pokédex</h1>
+
+    <form name="formita">
+
+        <fieldset>
+            <div>
+                <label>Generación:</label>
+
+                <select id="cmbGeneracion">
+                    <option value="0,151">Primera Generación</option>
+                    <option value="151,100">Segunda Generación</option>
+                    <option value="251,135">Tercera Generación</option>
+                    <option value="386,107">Cuarta Generación</option>
+                    <option value="493,156">Quinta Generación</option>
+                </select>
+            </div>
+        </fieldset>
+
+    </form>
+
+    <!-- Aquí se mostrarán los Pokémon -->
+    <div id="Datos"></div>
+
+    <!-- Ventana flotante para detalles -->
+    <div id="modalPokemon" class="modal">
+
+        <div class="modal-contenido">
+
+            <span id="cerrarModal">&times;</span>
+
+            <div id="detallePokemon"></div>
+
+        </div>
+
+    </div>
+
+    <script src="codes/codigo_05.js"></script>
+
+</body>
+</html>
+
+
