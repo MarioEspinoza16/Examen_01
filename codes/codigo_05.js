@@ -48,11 +48,12 @@ function mostrarPokemons(lista){
 
     pokemonList.innerHTML = "";
 
-    lista.forEach((pokemon,index)=>{
+    lista.forEach((pokemon)=>{
 
         let nombre = pokemon.name;
 
-        let numero = index + 1;
+        // Obtiene el ID real del Pokémon
+        let idPokemon = pokemon.url.split("/")[6];
 
         let card = document.createElement("div");
 
@@ -62,8 +63,10 @@ function mostrarPokemons(lista){
             <div class="card h-100">
 
                 <img
-                    src="https://img.pokemondb.net/sprites/omega-ruby-alpha-sapphire/dex/normal/${nombre}.png"
+                    src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${idPokemon}.png"
                     class="card-img-top"
+                    style="height:150px; object-fit:contain;"
+                    alt="${nombre}"
                 >
 
                 <div class="card-body text-center">
@@ -81,6 +84,11 @@ function mostrarPokemons(lista){
 
         pokemonList.appendChild(card);
 
+    });
+
+}
+
+      
 
 
         function detallePokemon(nombre){
@@ -140,6 +148,4 @@ function mostrarPokemons(lista){
 
 }
 
-    });
-
-}
+   
