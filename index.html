@@ -1,32 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Local Storage</title>
-    <link rel="stylesheet" href="styles/formatos.css" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrenadores - Pokédex</title>
+
+    <link rel="stylesheet" href="styles/formatos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Captura de Datos</h1>
-    <form name="formita" enctype="application/x-www-form-urlencoded">
-        <fieldset>
-            <div class="">
-                <label>Nombre:</label>
-                <input type="text" id="txtNomb" maxlength="15" size="20" required autofocus>
-            </div>
-            <div class="">
-                <label>eMail:</label>
-                <input type="text" id="txtEmail" maxlength="30" size="35" required>
-            </div>
-        </fieldset>
-        <div>
-            <a href="#" id="btnGuardar">Guardar</a>
-            <a href="#" id="btnMostrar">Mostrar</a>
+
+    <div class="container mt-4">
+
+        <!-- Título + Botón Agregar -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="text-center flex-grow-1">ENTRENADORES</h1>
+            <a href="agregar-entrenador.html" class="btn btn-success">
+                + Agregar Entrenador
+            </a>
         </div>
-        <input type="hidden" name="oculto1" value="Morticia">
-    </form>
 
-    <div id="Datos"></div>
+        <!-- Lista de entrenadores -->
+        <div id="entrenadorList" class="row g-3"></div>
 
-    <script src="codes/codigo_05.js"> </script>
+    </div>
+
+    <!-- Modal de Detalle -->
+    <div class="modal fade" id="entrenadorModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="entrenadorTitle"></h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="entrenadorImage" class="img-fluid mb-3 rounded" style="max-height: 280px;" alt="Entrenador">
+                    <p id="entrenadorInfo" class="text-start"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="codes/codigo_04.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Entrenador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="card mx-auto" style="max-width: 500px;">
+            <div class="card-header bg-danger text-white text-center">
+                <h3>➕ Agregar Nuevo Entrenador</h3>
+            </div>
+            <div class="card-body">
+                <form id="formEntrenador">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Edad</label>
+                        <input type="number" class="form-control" id="edad" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Región</label>
+                        <input type="text" class="form-control" id="region" required>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success">Guardar Entrenador</button>
+                        <a href="entrenadores.html" class="btn btn-secondary">Volver a Lista</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funciones de localStorage
+        function getEntrenadores() {
+            return JSON.parse(localStorage.getItem("entrenadores")) || [];
+        }
+
+        function saveEntrenadores(lista) {
+            localStorage.setItem("entrenadores", JSON.stringify(lista));
+        }
+
+        function addEntrenador(entrenador) {
+            let lista = getEntrenadores();
+            lista.push(entrenador);
+            saveEntrenadores(lista);
+        }
+
+        // Formulario
+        document.getElementById("formEntrenador").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const entrenador = {
+                nombre: document.getElementById("nombre").value,
+                edad: parseInt(document.getElementById("edad").value),
+                region: document.getElementById("region").value
+            };
+
+            addEntrenador(entrenador);
+            alert("✅ Entrenador guardado correctamente!");
+            this.reset();
+        });
+    </script>
+</body>
+</html>

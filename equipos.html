@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipos Pokémon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4" style="color: #dc3545;">EQUIPOS POKÉMON</h1>
+
+        <div class="text-center mb-4">
+            <a href="entrenadores.html" class="btn btn-outline-primary">👤 Entrenadores</a>
+            <a href="index2.html" class="btn btn-outline-primary">🔙 Pokédex</a>
+            <a href="agregarEquipo.html" class="btn btn-success">➕ Agregar Equipo</a>
+            <button onclick="limpiarEquipos()" class="btn btn-warning">🧹 Limpiar Equipos Agregados</button>
+        </div>
+
+        <div id="listaEquipos" class="row g-3"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            let equipos = JSON.parse(localStorage.getItem("equipos")) || [];
+
+            if (equipos.length === 0) {
+                equipos = [
+                    {
+                        nombre: "Equipo Fuego",
+                        imagen: "https://picsum.photos/id/1015/300/200",
+                        entrenador: "Cristiano Ronaldo",
+                        pokemones: ["Charizard", "Blaziken", "Infernape"]
+                    },
+                    {
+                        nombre: "Equipo Agua",
+                        imagen: "https://picsum.photos/id/201/300/200",
+                        entrenador: "Neymar Jr",
+                        pokemones: ["Blastoise", "Gyarados", "Greninja"]
+                    }
+                ];
+                localStorage.setItem("equipos", JSON.stringify(equipos));
+            }
+            const contenedor = document.getElementById("listaEquipos");
+            contenedor.innerHTML = "";
+
+            equipos.forEach(equipo => {
+                const div = document.createElement("div");
+                div.className = "col-lg-4 col-md-6";
+                div.innerHTML = `
+                    <div class="card h-100">
+                        <img src="${equipo.imagen}" class="card-img-top" style="height: 180px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">${equipo.nombre}</h5>
+                            <p><strong>Entrenador:</strong> ${equipo.entrenador}</p>
+                            <p><strong>Pokémon:</strong> ${equipo.pokemones.join(", ")}</p>
+                        </div>
+                    </div>
+                `;
+                contenedor.appendChild(div);
+            });
+        });
+
+        function limpiarEquipos() {
+    if (confirm("¿Eliminar solo los equipos agregados? Los de ejemplo se mantendrán.")) {
+        let equipos = JSON.parse(localStorage.getItem("equipos")) || [];
+        
+        // Mantener solo los 2 de ejemplo
+        const ejemplos = ["Equipo Fuego", "Equipo Agua"];
+        
+        equipos = equipos.filter(eq => ejemplos.includes(eq.nombre));
+        
+        localStorage.setItem("equipos", JSON.stringify(equipos));
+        location.reload();
+    }
+}
+    </script>
+</body>
+</html>

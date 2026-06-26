@@ -1,170 +1,69 @@
-// Declaración de variables locales
-// relacionadas con interface html
-var btnGuardar = document.getElementById("btnGuardar");
-var btnMostrar = document.getElementById("btnMostrar");
-var txtNomb = document.getElementById("txtNomb");
-var txtEmail = document.getElementById("txtEmail");
-var resultados = document.getElementById("Datos");
+const entrenadorList = document.getElementById("entrenadorList");
 
-//Variables para trabajar con indexedDB
-var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-var db = null;
+let db = null;
 
-function createDB(){
-    //Parámetros del método
-    //1. Nombre de la base de datos.
-    //2. Versión de la base de datos.
-    db = indexedDB.open('demoIDB','1');
+window.onload = function() {
+    let request = indexedDB.open("PokedexDB", 1);
 
-    db.onupgradeneeded = function(e){
-        var activa = db.result;
+    request.onupgradeneeded = function(e) {
+        db = e.target.result;
+        db.createObjectStore("entrenadores", { keyPath: "id", autoIncrement: true });
+    };
 
-        //crea el contenedor de datos
-        var tabla = activa.createObjectStore
-        ("datos",{keyPath : 'id', autoIncrement : true});
+    request.onsuccess = function(e) {
+        db = e.target.result;
+        insertarSiVacio();
+    };
+};
 
-        //crea los indices de busqueda basado en los campos del contenedor
-        tabla.createIndex('x_nombre','nombre',{unique : false});
-        tabla.createIndex('x_email','email',{unique : true});
-    }
+function insertarSiVacio() {
+    let tx = db.transaction(["entrenadores"], "readwrite");
+    let store = tx.objectStore("entrenadores");
 
-    db.onsuccess = function(e){
-        alert("Base de datos cargada correctamente");
-    }
-
-    db.onerror = function(e){
-        alert("Error cargando la base de datos");
-    }
-
-}// fin de la funcion de creación de la base de datos
-
-//Programación de evento botón guardar
-btnGuardar.addEventListener("click",function(){
-    var activa = db.result;
-    var tabla = activa.transaction(["datos"], "readwrite");
-    var tupla = tabla.objectStore("datos");
-
-    var regis = tupla.put({
-        nombre:txtNomb.value,
-        email:txtEmail.value
-    });
-
-    regis.onerror = function(e){
-        alert(regis.error.name + '\n\n' + regis.error.message);
-    }
-
-    tabla.oncomplete = function(e){
-        alert("Registro agregado satisfactoriamente");
-
-        //limpia los campos
-    	txtNomb.value = "";
-    	txtEmail.value = "";
-
-    	//pasa el foco al texto del nombre
-    	txtNomb.focus();
-    }
-});
-
-//Programación de evento botón mostrar
-btnMostrar.addEventListener("click",function(){
-    var activa = db.result;
-    var tabla = activa.transaction(["datos"], "readonly");
-    var tupla = tabla.objectStore("datos");
-
-    var datos = [];
-
-    tupla.openCursor().onsuccess = function(e){
-        var regis = e.target.result;
-        if(regis == null){
-            return;
+    store.count().onsuccess = function(e) {
+        if (e.target.result === 0) {
+            const trainers = [
+                { nombre: "Cristiano Ronaldo", sexo: "Masculino", residencia: "Madrid, España", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Portugal.jpg/800px-Cristiano_Ronaldo_playing_for_Portugal.jpg" },
+                { nombre: "Lionel Messi", sexo: "Masculino", residencia: "Miami, Estados Unidos", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg/800px-Lionel-Messi-Argentina-2022-FIFA-World-Cup_%28cropped%29.jpg" },
+                { nombre: "Neymar Jr", sexo: "Masculino", residencia: "São Paulo, Brasil", foto: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Neymar_Jr._with_Brazil_2022.jpg/800px-Neymar_Jr._with_Brazil_2022.jpg" }
+            ];
+            trainers.forEach(t => store.add(t));
         }
+        cargarEntrenadores();
+    };
+}
 
-        datos.push(regis.value);
-        regis.continue();
-    }
+function cargarEntrenadores() {
+    let tx = db.transaction(["entrenadores"], "readonly");
+    tx.objectStore("entrenadores").getAll().onsuccess = function(e) {
+        mostrar(e.target.result);
+    };
+}
 
-    tabla.oncomplete = function(e){
-        //declara variable para impresión de lista
-    	var salida = "<h3>Datos Recuperados</h3>";
+function mostrar(lista) {
+    entrenadorList.innerHTML = "";
+    lista.forEach(ent => {
+        let card = document.createElement("div");
+        card.className = "col-lg-3 col-md-4 col-6";
+        card.innerHTML = `
+            <div class="card h-100">
+                <img src="${ent.foto}" class="card-img-top" style="height:180px;object-fit:cover">
+                <div class="card-body text-center">
+                    <h6>${ent.nombre}</h6>
+                </div>
+            </div>
+        `;
+        card.onclick = () => mostrarDetalle(ent);
+        entrenadorList.appendChild(card);
+    });
+}
 
-    	//recorre el vector de datos
-    	for(var i = 0; i < datos.length; i++){
-    		salida = salida.concat(datos[i].id + "<br />" +
-                                   datos[i].nombre + "<br />" +
-    		                       datos[i].email + "<br />---------------------<br />");
-    	}
-
-        datos = [];
-    	resultados.innerHTML = salida;
-    }
-});
-
-/*
-//Programación de evento botón mostrar ordenando por nombre
-btnMostrar.addEventListener("click",function(){
-     var activa = db.result;
-     var tabla = activa.transaction(["datos"], "readonly");
-     var tupla = tabla.objectStore("datos");
-     var index = tupla.index("x_nombre");
-
-     var datos = [];
-
-     index.openCursor().onsuccess = function(e){
-         var regis = e.target.result;
-         if(regis == null){
-             return;
-         }
-
-         datos.push(regis.value);
-         regis.continue();
-     }
-
-     tabla.oncomplete = function(e){
-         //declara variable para impresión de lista
-     	var salida = "<h3>Datos Recuperados</h3>";
-
-     	//recorre el vector de datos
-     	for(var i = 0; i < datos.length; i++){
-     		salida = salida.concat(datos[i].id + "<br />" +
-                                    datos[i].nombre + "<br />" +
-     		                       datos[i].email + "<br />---------------------<br />");
-     	}
-
-         datos = [];
-     	resultados.innerHTML = salida;
-     }
- });
-
-//Programación de evento botón mostrar recuperando por un id
-btnMostrar.addEventListener("click",function(){
-     var activa = db.result;
-     var tabla = activa.transaction(["datos"], "readonly");
-     var tupla = tabla.objectStore("datos");
-
-     var regis = tupla.get(1);
-
-     regis.onsuccess=function(){
-         if(regis != undefined){
-             var datos = regis.result;
-
-             //declara variable para impresión de lista
-         	var salida = "<h3>Datos Recuperados</h3>";
-             salida = salida.concat(datos.id + "<br />" +
-                                    datos.nombre + "<br />" +
-                                    datos.email + "<br />---------------------<br />");
-             resultados.innerHTML = salida;
-         }
-     }
-});
-
-function borrar(id){
-    var activa = db.result;
-    var tabla = activa.transaction(["datos"], "readwrite");
-    var tupla = tabla.objectStore("datos");
-
-    var elim = tupla.delete(parseInt(id));
-
-    elim.onsuccess = function(e){
-        alert("Registro eliminado satisfactoriamente");
-    }
-}*/
+function mostrarDetalle(ent) {
+    document.getElementById("entrenadorTitle").innerText = ent.nombre;
+    document.getElementById("entrenadorImage").src = ent.foto;
+    document.getElementById("entrenadorInfo").innerHTML = `
+        Sexo: ${ent.sexo}<br>
+        Residencia: ${ent.residencia}
+    `;
+    new bootstrap.Modal(document.getElementById("entrenadorModal")).show();
+}
