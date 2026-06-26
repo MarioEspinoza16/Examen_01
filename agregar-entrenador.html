@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Entrenador - Pokédex</title>
+
+    <link rel="stylesheet" href="styles/formatos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Agregar Nuevo Entrenador</h1>
+
+        <div class="card mx-auto" style="max-width: 600px;">
+            <div class="card-body">
+                <form id="formEntrenador">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="nombre" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Sexo</label>
+                        <select class="form-select" id="sexo" required>
+                            <option value="">Seleccione</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Lugar de Residencia</label>
+                        <input type="text" class="form-control" id="residencia" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">URL de la Foto</label>
+                        <input type="url" class="form-control" id="foto" required placeholder="https://...">
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Guardar Entrenador</button>
+                        <a href="index.html" class="btn btn-secondary">Volver a Entrenadores</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="codes/codigo_04.js"></script>
+    <script>
+        // Código para agregar entrenador irá aquí
+    </script>
+</body>
+</html>
